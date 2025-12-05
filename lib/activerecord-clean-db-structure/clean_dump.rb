@@ -164,7 +164,7 @@ module ActiveRecordCleanDbStructure
     # NOTE: does not work for SMALLSERIAL
     def sequences_cleanup
       dump.gsub!(/^    id integer NOT NULL(,)?$/, '    id SERIAL\1')
-      dump.gsub!(/^    id bigint NOT NULL(,)?$/, '    id BIGSERIAL\1')
+      dump.gsub!(/^    id bigint (?:CONSTRAINT [\w_]+?_not_null )?NOT NULL(,)?$/, '    id BIGSERIAL\1')
       dump.gsub!(
         /^CREATE SEQUENCE [\w\.]+_id_seq\s+(AS integer\s+)?START WITH 1\s+INCREMENT BY 1\s+NO MINVALUE\s+NO MAXVALUE\s+CACHE 1;$/, ''
       )
