@@ -116,7 +116,7 @@ module ActiveRecordCleanDbStructure
         dump.gsub!(/^CREATE( UNIQUE)? INDEX \w+ ON .+\n+/, '')
         dump.gsub!(/^-- Name: \w+; Type: INDEX\n+/, '')
         indexes.each do |table, indexes_for_table|
-          dump.gsub!(/^(CREATE TABLE #{table}\b(:?[^;\n]*\n)+)(\);\n|PARTITION.+\);\n)/) do |match|
+          dump.gsub!(/^(CREATE TABLE #{table}\b(:?[^;\n]*\n)+)(\);\n|WITH [^\n]+;\n|PARTITION.+\);\n)/) do |match|
             match + "\n" + indexes_for_table
           end
           dump.gsub!(/^(CREATE (?:MATERIALIZED\s)?VIEW #{table}\b.*?;\n)/m) do |match|
@@ -143,7 +143,7 @@ module ActiveRecordCleanDbStructure
     # - ignores quotes which surround column names that are equal to reserved PostgreSQL names.
     # - keeps the columns at the top and places the constraints at the bottom.
     def order_column_definitions
-      dump.gsub!(/^(?<table>CREATE TABLE .+?\(\n)(?<columns>.+?)(?=\n(\);|\)\nPARTITION.+\);)$)/m) do
+      dump.gsub!(/^(?<table>CREATE TABLE .+?\(\n)(?<columns>.+?)(?=\n(\);|\)\nWITH [^\n]+;|\)\nPARTITION.+\);)$)/m) do
         table = $LAST_MATCH_INFO[:table]
         columns =
           $LAST_MATCH_INFO[:columns]
