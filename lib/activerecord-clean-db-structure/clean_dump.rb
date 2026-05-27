@@ -228,7 +228,7 @@ module ActiveRecordCleanDbStructure
       unique_constraints.each do |table, name, columns|
         dump.gsub!(/^(?<statement>CREATE TABLE #{table} \(.*?\);)/m) do
           constraint = "CONSTRAINT #{name} UNIQUE #{columns}"
-          $LAST_MATCH_INFO[:statement].sub(/\n\);\z/, ",\n    #{constraint}\n);").to_s
+          $LAST_MATCH_INFO[:statement].sub(/(\n\)(?:;|\nWITH [^\n]+;))\z/, ",\n    #{constraint}\\1").to_s
         end
       end
     end

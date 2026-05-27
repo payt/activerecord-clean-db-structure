@@ -46,6 +46,13 @@ class StorageParametersTest < Minitest::Spec
       CREATE INDEX index_versions_on_created_at ON public.versions USING btree (created_at);
 
       --
+      -- Name: invoices index_invoices_on_name_and_id; Type: CONSTRAINT; Schema: public; Owner: -
+      --
+
+      ALTER TABLE ONLY public.invoices
+        ADD CONSTRAINT index_invoices_on_name_and_id UNIQUE (name, id);
+
+      --
       -- PostgreSQL database dump complete
       --
     SQL
@@ -60,6 +67,8 @@ class StorageParametersTest < Minitest::Spec
       invoices_block = result[/CREATE TABLE public\.invoices \(.*?\)\nWITH [^\n]+;/m]
       refute_nil invoices_block
       refute_match(/event character varying/, invoices_block)
+      # unique constraint moved inline, not lost
+      assert_match(/CONSTRAINT index_invoices_on_name_and_id UNIQUE \(name, id\)/, invoices_block)
       # versions table intact
       assert_match(/CREATE TABLE public\.versions \(\n  created_at timestamp with time zone NOT NULL,\n  event character varying NOT NULL,\n  id BIGSERIAL\n\)/, result)
     end
