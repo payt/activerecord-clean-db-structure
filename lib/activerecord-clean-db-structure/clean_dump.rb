@@ -1,7 +1,9 @@
 require 'active_support/all'
+require_relative 'order_column_comments'
 
 module ActiveRecordCleanDbStructure
   class CleanDump
+    prepend OrderColumnComments
     attr_reader :dump, :options
 
     def initialize(dump, options = {})
