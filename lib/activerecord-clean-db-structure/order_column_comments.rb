@@ -22,6 +22,8 @@ module ActiveRecordCleanDbStructure
           .map(&:last)
           .join
       end
+      
+      dump
     end
   end
 end
