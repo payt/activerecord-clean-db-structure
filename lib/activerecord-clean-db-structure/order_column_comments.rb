@@ -8,7 +8,7 @@ module ActiveRecordCleanDbStructure
     # different order than a database created from db/structure.sql, where the physical order
     # already is the alphabetical one the gem wrote. Ordering them here makes the dump
     # independent of how the database was built.
-    COMMENT_BLOCK = /^-- Name: COLUMN (?<name>[\w."]+); Type: COMMENT\n\nCOMMENT ON COLUMN .+;\n\n/
+    COMMENT_BLOCK = /^-- Name: COLUMN (?<name>.+?); Type: COMMENT\n\nCOMMENT ON COLUMN .+;\n\n/
     CONSECUTIVE_COMMENT_BLOCKS = /(?:#{COMMENT_BLOCK}){2,}/
 
     def run
