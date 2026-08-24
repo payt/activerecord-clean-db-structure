@@ -19,12 +19,6 @@ class OrderColumnCommentsTest < Minitest::Spec
       );
 
       --
-      -- Name: COLUMN users.created_at; Type: COMMENT
-      --
-
-      COMMENT ON COLUMN public.users.created_at IS 'The creation timestamp';
-
-      --
       -- Name: COLUMN users.id; Type: COMMENT
       --
 
@@ -35,6 +29,12 @@ class OrderColumnCommentsTest < Minitest::Spec
       --
 
       COMMENT ON COLUMN public.users.name IS 'User name';
+
+      --
+      -- Name: COLUMN users.created_at; Type: COMMENT
+      --
+
+      COMMENT ON COLUMN public.users.created_at IS 'The creation timestamp';
 
       --
       -- PostgreSQL database dump complete
