@@ -1,11 +1,13 @@
 require 'active_support/all'
+require_relative 'order_column_comments'
 
 module ActiveRecordCleanDbStructure
   class CleanDump
+    prepend OrderColumnComments
     attr_reader :dump, :options
 
     def initialize(dump, options = {})
-      @dump = dump
+      @dump = dump.dup
       @options = options
     end
 
@@ -135,6 +137,7 @@ module ActiveRecordCleanDbStructure
       dump.gsub!(/\n{2,}/m, "\n\n")
       # End the file with a single end-of-line character
       dump.sub!(/\n*\z/m, "\n")
+      dump
     end
 
     private
